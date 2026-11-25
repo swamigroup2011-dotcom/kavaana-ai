@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Generate Android project
-        run: npx expo install --fix && CI=1 npx expo prebuild --platform android
+        run: npx expo install --fix && CI=1 npx expo prebuild --clean --platform android
 
       - name: Build installable APK
         working-directory: android
