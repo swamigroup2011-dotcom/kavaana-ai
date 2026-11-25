@@ -42,7 +42,7 @@ export default function App() {
               <Text style={styles.subtitle}>Your stories. Your characters. Your world.</Text>
               <View style={styles.hero}>
                 <Text style={styles.heroEyebrow}>WELCOME TO YOUR UNIVERSE</Text>
-                <Text style={styles.heroTitle}>Every conversation{\`\\n\`}starts a new story.</Text>
+                <Text style={styles.heroTitle}>Every conversation{"\n"}starts a new story.</Text>
                 <Text style={styles.heroCopy}>Meet characters, explore new worlds and create stories together.</Text>
               </View>
               <Text style={styles.section}>Discover characters</Text>
