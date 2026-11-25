@@ -11,6 +11,13 @@
     "splash": {
       "resizeMode": "contain",
       "backgroundColor": "#0B0B14"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "experiments": {
+      "baseUrl": "/kavaana-ai"
     }
   }
 }
