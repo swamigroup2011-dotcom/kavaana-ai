@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Kavaana AI",
+    "slug": "kavaana-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "android": {
+      "package": "com.kavaana.ai"
+    },
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0B0B14"
+    }
+  }
+}
