@@ -29,6 +29,41 @@ jobs:
       - name: Generate Android project
         run: npx expo install --fix && CI=1 npx expo prebuild --clean --platform android
 
+      - name: Repair incomplete Expo Android publication metadata
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const { execFileSync } = require('child_process');
+          const files = execFileSync('find', ['node_modules', '-name', 'expo-module.config.json', '-type', 'f'], { encoding: 'utf8' })
+            .trim().split('\n').filter(Boolean);
+          const repaired = [];
+          for (const file of files) {
+            let config;
+            try { config = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { continue; }
+            const packageFile = path.join(path.dirname(file), 'package.json');
+            if (!fs.existsSync(packageFile)) continue;
+            let pkg;
+            try { pkg = JSON.parse(fs.readFileSync(packageFile, 'utf8')); } catch { continue; }
+            let changed = false;
+            const addVersion = (publication) => {
+              if (publication && !publication.version && pkg.version) {
+                publication.version = pkg.version;
+                changed = true;
+              }
+            };
+            addVersion(config.android?.publication);
+            for (const project of config.android?.projects || []) addVersion(project.publication);
+            if (changed) {
+              fs.writeFileSync(file, JSON.stringify(config, null, 2) + '\n');
+              repaired.push(pkg.name + '@' + pkg.version);
+            }
+          }
+          console.log(repaired.length
+            ? 'Repaired Android publication metadata: ' + repaired.join(', ')
+            : 'No incomplete Android publication metadata found.');
+          NODE
+
       - name: Build installable APK
         working-directory: android
         run: chmod +x gradlew && ./gradlew assembleDebug
